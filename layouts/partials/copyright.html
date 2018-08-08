@@ -1,0 +1,3 @@
+<aside class="copyright" role="note">
+  {{ with .Site.Params.copyright }}{{ . | markdownify }}{{ else }}© Copyright {{ now.Format "2006" }} {{ .Site.Params.author }}{{ end }}
+</aside>

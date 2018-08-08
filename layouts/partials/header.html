@@ -7,7 +7,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        {{ .Title }}
+        <a href="{{.Site.BaseURL}}">{{ .Site.Title }}</a>
       </div>
     </div>
 
@@ -23,11 +23,10 @@
     </div>
     {{ end }}
     
-    <!-- TODO: disabled until Hugo supports the generation of a content index natively 
-    <div class="button button-search" role="button" aria-label="Search">
+    <!-- <div class="button button-search" role="button" aria-label="Search">
       <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
-    </div>
-    -->    
+    </div> -->
+
   </div>
   <div class="bar search">
     <div class="button button-close" role="button" aria-label="Close">

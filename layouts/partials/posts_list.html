@@ -1,0 +1,5 @@
+<hr>
+<a href="{{ .Permalink }}" title="{{ .Title }}">
+  <h2>{{ .LinkTitle }}<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside></h2>
+</a>
+<br>{{ printf "%s" .Summary | plainify }}

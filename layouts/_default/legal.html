@@ -13,13 +13,11 @@
 <main class="main">
 	<div class="drawer">{{ partial "drawer" . }}</div>
 
-	<article class="article">
+	<article class="article legal">
 		<div class="wrapper">
-			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}
-				<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside>
-			</h1>
-			<hr> {{ .Content }} {{ partial "tags" . }}
-			<hr> {{ partial "latest-posts" . }}
+			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
+			<aside class="update">Updated on {{ .Date.Format "Jan 2 2006" }}</aside>
+			{{ .Content }}
 			<hr> {{ partial "copyright" . }}
 		</div>
 	</article>

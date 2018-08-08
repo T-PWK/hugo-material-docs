@@ -24,25 +24,9 @@
 
 	<article class="article">
 		<div class="wrapper">
-			{{ range where .Site.Pages "Type" "index" }}
-				<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
-
-				{{ .Content }}
-			{{ end }}
-
-			<aside class="copyright" role="note">
-				{{ with .Site.Params.copyright }}
-				&copy; {{ now.Format "2006" }} {{ . }} &ndash;
-				{{ end }}
-				Documentation built with
-				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
-				using the
-				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
-			</aside>
-
-			<footer class="footer">
-				{{ partial "footer" . }}
-			</footer>
+			<h1>{{ .Site.Title }}</h1>
+			{{ range where .Paginator.Pages "Section" "ne" "" }}{{ partial "posts_list" . }}{{ end }}
+			<footer class="footer">{{ partial "footer" . }}</footer>
 		</div>
 	</article>
 

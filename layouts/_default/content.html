@@ -18,8 +18,7 @@
 			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}
 				<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside>
 			</h1>
-			<hr> {{ .Content }} {{ partial "tags" . }}
-			<hr> {{ partial "latest-posts" . }}
+			{{ .Content }}
 			<hr> {{ partial "copyright" . }}
 		</div>
 	</article>

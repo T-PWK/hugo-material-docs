@@ -12,15 +12,11 @@
 
 <main class="main">
 	<div class="drawer">{{ partial "drawer" . }}</div>
-
 	<article class="article">
 		<div class="wrapper">
-			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}
-				<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside>
-			</h1>
-			<hr> {{ .Content }} {{ partial "tags" . }}
-			<hr> {{ partial "latest-posts" . }}
-			<hr> {{ partial "copyright" . }}
+			<h1>Pages in {{ .Title | singularize }}</h1>
+			{{ range .Paginator.Pages.ByWeight }}{{ partial "posts_list" . }}{{ end }}
+			<footer class="footer">{{ partial "footer" . }}</footer>
 		</div>
 	</article>
 
