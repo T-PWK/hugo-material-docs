@@ -1,0 +1,26 @@
+{{ if .IsPage }} {{ $ISO8601 := "2006-01-02T15:04:05-07:00" }} {{ $images := .Resources.ByType "image" }}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "name": "{{ .Title }}",
+  "headline": "{{ substr (.Description | markdownify | plainify) 0 110 }}",{{ with .Site.Params.author }}
+  "author": {
+    "@type": "Person",
+    "name": "{{.}}"
+  },{{end}}
+  "image": [{{ if eq (len $images) 0 }}{"@type":"ImageObject","url":"https://blog.abelotech.com/images/abelo-logo.png","width":600,"height":60}{{ end }}{{ range $index, $img := $images }}{{ if $index}},{{ end }}
+  {"@type": "ImageObject","url":"{{$img.Permalink}}","width":{{$img.Width}},"height":{{$img.Height}}}{{ end }}],
+  {{ if .Params.tags }}"keywords": "{{delimit .Params.tags " " }}",{{ end }}
+  "wordcount": "{{ .WordCount }}",
+  {{ if not .PublishDate.IsZero }}"datePublished": "{{ .PublishDate.Format $ISO8601 | safeHTML }}",{{end}}
+  {{ if not .Lastmod.IsZero }}"dateModified": "{{ .Lastmod.Format $ISO8601 | safeHTML }}",{{end}}
+  "articleBody": "{{ .Plain | safeHTML }}",
+  "mainEntityOfPage": "{{ .Permalink }}",
+  "publisher": {
+    "@type": "Organization",
+    "name":"Abelo",
+    "logo": {"@type":"ImageObject","url":"https://blog.abelotech.com/images/abelo-logo.png","height":60,"width":600}
+  }
+}
+</script> {{ end }}

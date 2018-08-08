@@ -4,20 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>{{ .Title }}{{ if not .IsHome }} - {{ .Site.Title }}{{ end }}</title>
+    <title>{{ .Title }}{{ if not .IsHome }} &middot; {{ .Site.Title }}{{ end }}</title>
+    {{ if .Description }}<meta name="description" content="{{ .Description | markdownify | safeHTML }}">{{else}}{{ with .Site.Params.description }}<meta name="description" content="{{ . | markdownify | safeHTML }}">{{ end }}{{ end }}
     {{ .Hugo.Generator }}
-
-    {{ with .Site.Params.description }}
-    <meta name="description" content="{{ . }}">
-    {{ end }}
+    
+    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
-    {{ with .Site.Params.author }}
-    <meta name="author" content="{{ . }}">
-    {{ end }}
+    {{ with .OutputFormats.Get "amp" }}<link rel="amphtml" href="{{ .Permalink }}">{{ end }}
 
-    <meta property="og:url" content="{{ .Permalink }}">
-    {{ with .Site.Title }}<meta property="og:title" content="{{ . }}">{{ end }}
-    {{ with .Site.Params.logo }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+    {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+
     {{ with .Site.Title }}<meta name="apple-mobile-web-app-title" content="{{ . }}">{{ end }}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -42,17 +38,16 @@
       }
     </style>
 
-    <!-- <link rel="stylesheet" href="{{ "stylesheets/application.css" | absURL }}"> -->
-    {{ with resources.Get "scss/application.scss" | toCSS }}<link rel="stylesheet" href="{{ .Permalink }}">{{ end }}
-    {{ with resources.Get "scss/palettes.scss" | toCSS | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
+    {{ with resources.Get "scss/application.scss" | toCSS  "css/application.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
+    {{/* with resources.Get "scss/palettes.scss" | toCSS "css/palettes.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end */}}
 
-    {{ if .IsPage }}
+    {{/* if .IsPage }}
     {{ with .Site.Params.highlight_css }}
     <link rel="stylesheet" href="{{ . | absURL }}">
     {{ else }}
-    {{ with resources.Get "scss/highlight/highlight.scss" | toCSS | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
+    {{ with resources.Get "scss/highlight/highlight.scss" | toCSS "css/highlight.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
     {{ end }}
-    {{ end }}
+    {{ end */}}
 
     {{/* set default values if no custom ones are defined */}}
     {{ $text := or .Site.Params.font.text "Roboto" }}
@@ -77,5 +72,14 @@
     <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
     {{ end }}
 
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/google_news.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+    {{ partial "google-gtag.html" . }}
+    {{ partial "google-ads.html" . }}
+    {{ partial "json-ld.html" . }}
+    {{ if .IsPage }}{{ with .Site.Params.sharethis }}
+    <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property={{.}}&product=social-ab" async="async"></script>
+    {{ end }}{{ end }}
   </head>
   <body class="{{ with .Site.Params.palette.primary }}palette-primary-{{ . }}{{end }} {{ with .Site.Params.palette.accent }}palette-accent-{{ .  }}{{ end }}">
