@@ -24,7 +24,7 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>{{ .Site.Title }}</h1>
+			<h1>{{ .Site.Title | safeHTML }}</h1>
 			{{ range where .Paginator.Pages "Section" "ne" "" }}{{ partial "posts_list" . }}{{ end }}
 			<footer class="footer">{{ partial "footer" . }}</footer>
 		</div>

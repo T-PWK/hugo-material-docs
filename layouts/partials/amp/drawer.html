@@ -7,7 +7,7 @@
       </div>
       {{ end }}
       <div class="name">
-        <strong>{{ .Site.Title }}{{- with .Site.Params.version }}
+        <strong>{{ .Site.Title | safeHTML }}{{- with .Site.Params.version }}
           <span class="version">{{ . }}</span>
           {{ end -}}
         </strong>
