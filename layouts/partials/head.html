@@ -81,5 +81,6 @@
     {{ if .IsPage }}{{ with .Site.Params.sharethis }}
     <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property={{.}}&product=social-ab" async="async"></script>
     {{ end }}{{ end }}
+    {{ partial "hotjar" . }}
   </head>
   <body class="{{ with .Site.Params.palette.primary }}palette-primary-{{ . }}{{end }} {{ with .Site.Params.palette.accent }}palette-accent-{{ .  }}{{ end }}">
