@@ -10,7 +10,7 @@
     "name": "{{.}}"
   },{{end}}
   "image": [{{ if eq (len $images) 0 }}{"@type":"ImageObject","url":"https://blog.abelotech.com/images/abelo-logo.png","width":600,"height":60}{{ end }}{{ range $index, $img := $images }}{{ if $index}},{{ end }}
-  {"@type": "ImageObject","url":"{{$img.Permalink}}","width":{{$img.Width}},"height":{{$img.Height}}}{{ end }}],
+  {"@type": "ImageObject","url":"{{$img.Permalink}}","width":{{$img.Width}},"height":{{$img.Height}},"caption":{{$img.Title | safeHTML | jsonify }}}{{ end }}],
   {{ if .Params.tags }}"keywords": "{{delimit .Params.tags " " }}",{{ end }}
   "wordcount": "{{ .WordCount }}",
   {{ if not .PublishDate.IsZero }}"datePublished": "{{ .PublishDate.Format $ISO8601 | safeHTML }}",{{end}}
