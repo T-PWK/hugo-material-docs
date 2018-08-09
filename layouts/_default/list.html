@@ -14,7 +14,7 @@
 	<div class="drawer">{{ partial "drawer" . }}</div>
 	<article class="article">
 		<div class="wrapper">
-			<h1>Pages in {{ .Title | singularize }}</h1>
+			<h1>Pages in {{ .Title }}</h1>
 			{{ range .Paginator.Pages.ByWeight }}{{ partial "posts_list" . }}{{ end }}
 			<footer class="footer">{{ partial "footer" . }}</footer>
 		</div>
