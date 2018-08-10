@@ -5,4 +5,5 @@
   function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', '{{.}}', { 'anonymize_ip': true });
+  window.addEventListener("load",function(){document.querySelector(".query").addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})})});
 </script> {{ end }}
