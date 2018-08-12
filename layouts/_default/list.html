@@ -14,8 +14,17 @@
 	<div class="drawer">{{ partial "drawer" . }}</div>
 	<article class="article">
 		<div class="wrapper">
-			<h1>Pages in {{ .Title }}</h1>
-			{{ range .Paginator.Pages.ByWeight }}{{ partial "posts_list" . }}{{ end }}
+			<h1>{{ .Title }}{{ if .IsDraft }}(Draft){{ end }}</h1>
+			<ul>
+				{{ range .Paginator.Pages.ByWeight }}
+				<li>
+					<a href="{{ .Permalink }}" title="{{ .Title }}">
+						{{ .LinkTitle }}{{ if .IsDraft }} (Draft){{ end }}
+						<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside>
+					</a>
+				</li>
+				{{ end }}
+			</ul>
 			<footer class="footer">{{ partial "footer" . }}</footer>
 		</div>
 	</article>
