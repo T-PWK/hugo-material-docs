@@ -1,5 +1,10 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range where .Site.Pages "Type" "not in"  (slice "page" "json") -}}
-{{- $.Scratch.Add "index" (dict "location" .Permalink "title" .Title "text" .Plain) -}}
+{{ $.Scratch.Add "content" slice }}
+{{ $.Scratch.Add "content" (delimit (default (slice "") .Params.index) " ") }}
+{{ $.Scratch.Add "content" (delimit (default (slice "") .Params.tags) " ") }}
+{{ $.Scratch.Add "content" .Description }}
+{{- $.Scratch.Add "index" (dict "location" .Permalink "title" .Title "text" (delimit (sort (uniq (split (lower (delimit ($.Scratch.Get "content") " ")) " "))) " ")  ) -}}
+{{- $.Scratch.Delete "content" -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
