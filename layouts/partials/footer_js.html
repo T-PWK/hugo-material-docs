@@ -14,44 +14,11 @@
     <script src="{{ . | absURL }}"></script>
     {{ end }}
 
-    <script>
-      {{ "/* Add headers to scrollspy */" | safeJS }}
-      var headers   = document.getElementsByTagName("h2");
-      var scrollspy = document.getElementById('scrollspy');
-
-      if(scrollspy) {
-        if(headers.length > 0) {
-          for(var i = 0; i < headers.length; i++) {
-            var li = document.createElement("li");
-            li.setAttribute("class", "anchor");
-
-            var a  = document.createElement("a");
-            a.setAttribute("href", "#" + headers[i].id);
-            a.setAttribute("title", headers[i].innerHTML);
-            a.innerHTML = headers[i].innerHTML;
-
-            li.appendChild(a)
-            scrollspy.appendChild(li);
-          }
-        } else {
-          scrollspy.parentElement.removeChild(scrollspy)
-        }
-
-
-        {{ "/* Add permanent link next to the headers */" | safeJS }}
-        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
-
-        for(var i = 0; i < headers.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("class", "headerlink");
-            a.setAttribute("href", "#" + headers[i].id);
-            a.setAttribute("title", "Permanent link")
-            a.innerHTML = {{ or .Site.Params.permalink "¶" }};
-            headers[i].appendChild(a);
-        }
-      }
-    </script>
+    {{- if .IsPage }}
+    {{ with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
+    <script>{{ .Content | safeJS }}</script>{{ end -}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    {{ end -}}
   </body>
 </html>
