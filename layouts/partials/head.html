@@ -65,7 +65,7 @@
     {{ range .Site.Params.custom_css }}
     <link rel="stylesheet" href="{{ . | absURL }}">
     {{ end }}
-    {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
+    {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script async src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
 
     {{ with .RSSLink }}
     <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
