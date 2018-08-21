@@ -1,0 +1,6 @@
+<figure {{ if isset .Params "class" }}class="{{ index .Params "class" }}"{{ end }} width="100" height="100">
+  {{ $svg := $.Page.Resources.GetMatch (.Get "src") | resources.Minify }}{{ $svg.Content | safeHTML }}
+  {{ if $svg.Title }}
+  <figcaption><h5>{{ $svg.Title }}</h5></figcaption>
+  {{ end }}
+</figure>
