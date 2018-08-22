@@ -1,7 +1,5 @@
 {{ $svgs := $.Page.Resources.Match (.Get "src") }}
 <figure {{ if isset .Params "class" }}class="{{ index .Params "class" }}"{{ end }}>
   {{ range $svgs }}{{ (. | resources.Minify).Content | safeHTML }}{{ end }}
-  {{ if isset .Params "title" }}
-  <figcaption><h5>{{ index .Params "title" }}</h5></figcaption>
-  {{ end }}
+  {{ if isset .Params "title" }}<figcaption><h5>{{ index .Params "title" }}</h5></figcaption>{{ end }}
 </figure>

@@ -1,8 +1,6 @@
 {{ range $.Page.Resources.Match (.Get "src") }}
 <figure {{ if isset $.Params "class" }}class="{{ index $.Params "class" }}"{{ end }}>
-  <img src="{{ .RelPermalink }}" alt="{{ .Title }}" /> {{ if .Title }}
-  <figcaption>
-    <h5>{{ .Title }}</h5>
-  </figcaption>{{end}}
+  <img src="{{ .RelPermalink }}" alt="{{ .Title }}" />
+  {{ if .Title }}<figcaption><h5>{{ .Title }}</h5></figcaption>{{ end }}
 </figure>
 {{ end }}
