@@ -4,65 +4,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>{{ .Title }}{{ if not .IsHome }} &middot; {{ .Site.Title }}{{ end }}</title>
+    <title>
+      {{- with .Title }}{{ . }}{{ if not $.IsHome }} · {{ $.Site.Title }}{{ end }}{{else}}{{ .Site.Title }}{{ end -}}
+    </title>
     {{ if .Description }}<meta name="description" content="{{ .Description | markdownify | safeHTML }}">{{else}}{{ with .Site.Params.description }}<meta name="description" content="{{ . | markdownify | safeHTML }}">{{ end }}{{ end }}
-    {{ .Hugo.Generator }}
-    
-    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+    {{- .Hugo.Generator }}
     <link rel="canonical" href="{{ .Permalink }}">
     {{ with .OutputFormats.Get "amp" }}<link rel="amphtml" href="{{ .Permalink }}">{{ end }}
-
     {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
-
     {{ with .Site.Title }}<meta name="apple-mobile-web-app-title" content="{{ . }}">{{ end }}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ with .Site.Params.favicon }}{{ . | absURL }}{{ else }}{{ "images/favicon.ico" | absURL }}{{ end }}">
     <link rel="icon" type="image/x-icon" href="{{ with .Site.Params.favicon }}{{ . | absURL }}{{ else }}{{ "images/favicon.ico" | absURL }}{{ end }}">
-
-    <style>
-      @font-face {
-        font-family: 'Icon';
-        src: url('{{ "fonts/icon.eot?52m981" | absURL }}');
-        src: url('{{ "fonts/icon.eot?#iefix52m981" | absURL }}')
-               format('embedded-opentype'),
-             url('{{ "fonts/icon.woff?52m981" | absURL }}')
-               format('woff'),
-             url('{{ "fonts/icon.ttf?52m981" | absURL }}')
-               format('truetype'),
-             url('{{ "fonts/icon.svg?52m981#icon" | absURL }}')
-               format('svg');
-        font-weight: normal;
-        font-style: normal;
-      }
-    </style>
-
-    {{ with resources.Get "scss/application.scss" | toCSS  "css/application.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
-
-    {{/* set default values if no custom ones are defined */}}
-    {{ $text := or .Site.Params.font.text "Roboto" }}
-    {{ $code := or .Site.Params.font.code "Roboto Mono" }}
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ $text }}:400,700|{{ replace  $code " " "+" | safeURL }}">
-    <style>
-      body, input {
-        font-family: '{{ $text }}', Helvetica, Arial, sans-serif;
-      }
-      pre, code {
-        font-family: '{{ $code }}', 'Courier New', 'Courier', monospace;
-      }
-    </style>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ .Site.Params.font.text | default "Roboto" }}:400,700|{{ replace  (.Site.Params.font.code | default "Roboto Mono") " " "+" | safeURL }}">
+    {{- with resources.Get "scss/application.scss" | resources.ExecuteAsTemplate "css/application.css" . | toCSS | resources.Fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}">{{ end -}}
     {{ with resources.Get "javascripts/loadjs.min.js"}}<script>{{ .Content | safeJS }}</script>{{ end }}
-    {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script async src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
+    {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script async src="{{ .Permalink }}"></script>{{ end }}
 
-    {{ with .RSSLink }}
+    {{- with .RSSLink }}
     <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
     <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
-    {{ end }}
+    {{ end -}}
 
-    {{ template "_internal/opengraph.html" . }}
-    {{ template "_internal/google_news.html" . }}
-    {{ template "_internal/twitter_cards.html" . }}
+    {{- template "_internal/opengraph.html" . -}}
+    {{- template "_internal/google_news.html" . -}}
+    {{- template "_internal/twitter_cards.html" . -}}
     {{ partial "google-gtag.html" . }}
     {{ partial "google-ads.html" . }}
     {{ partial "json-ld.html" . }}

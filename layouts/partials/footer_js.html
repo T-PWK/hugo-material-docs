@@ -1,4 +1,4 @@
-    {{ with resources.Get "javascripts/application.js" | fingerprint }}<script src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
+    {{ with resources.Get "javascripts/application.js" | fingerprint }}<script src="{{ .Permalink }}"></script>{{ end }}
     {{- if .IsPage }}
     {{- with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
     <script>{{ .Content | safeJS }}</script>{{ end -}}

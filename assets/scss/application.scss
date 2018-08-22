@@ -4,6 +4,23 @@ $accent: #00bfa5;
 $code-bg: #eee;
 // $table: #ee7a70;
 $table: #7986CB;
+$text: "{{ .Site.Params.font.text | default "Roboto" }}";
+$code: "{{ .Site.Params.font.code | default "Roboto Mono" }}";
+
+@font-face {
+  font-family: 'Icon';
+  src: url('{{ "fonts/icon.eot?52m981" | relURL }}');
+  src: url('{{ "fonts/icon.eot?#iefix52m981" | relURL }}')
+         format('embedded-opentype'),
+       url('{{ "fonts/icon.woff?52m981" | relURL }}')
+         format('woff'),
+       url('{{ "fonts/icon.ttf?52m981" | relURL }}')
+         format('truetype'),
+       url('{{ "fonts/icon.svg?52m981#icon" | relURL }}')
+         format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
 html {
   box-sizing: border-box;
@@ -1493,6 +1510,13 @@ blockquote {
   margin: 0 0 20px;
   font-size: inherit;
   border-left: 5px solid #eee;
+}
+
+body, input {
+  font-family: $text, Helvetica, Arial, sans-serif;
+}
+pre, code {
+  font-family: $code, 'Courier New', 'Courier', monospace;
 }
 
 @import 'highlight/highlight';
