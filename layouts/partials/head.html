@@ -39,7 +39,6 @@
     </style>
 
     {{ with resources.Get "scss/application.scss" | toCSS  "css/application.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end }}
-    {{/* with resources.Get "scss/palettes.scss" | toCSS "css/palettes.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}">{{ end */}}
 
     {{/* set default values if no custom ones are defined */}}
     {{ $text := or .Site.Params.font.text "Roboto" }}
@@ -53,10 +52,7 @@
         font-family: '{{ $code }}', 'Courier New', 'Courier', monospace;
       }
     </style>
-
-    {{ range .Site.Params.custom_css }}
-    <link rel="stylesheet" href="{{ . | absURL }}">
-    {{ end }}
+    {{ with resources.Get "javascripts/head.min.js"}}<script>{{ .Content | safeJS }}</script>{{ end }}
     {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script async src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
 
     {{ with .RSSLink }}
@@ -72,5 +68,9 @@
     {{ partial "json-ld.html" . }}
     {{ partial "hotjar" . }}
     {{ partial "share-this" . }}
+    {{- if and .IsPage .Params.math }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha256-uXNHy6FK52Pb83SmU45mVAg7YECmr9Lwwu1zOz31j5c=" crossorigin="anonymous" />
+    <script>head.load(["https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js","https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.js"],function(){renderMathInElement(document.getElementsByClassName('article')[0])})</script>
+    {{ end -}}
   </head>
   <body class="{{ with .Site.Params.palette.primary }}palette-primary-{{ . }}{{end }} {{ with .Site.Params.palette.accent }}palette-accent-{{ .  }}{{ end }}">

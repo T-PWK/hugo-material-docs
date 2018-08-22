@@ -1,25 +1,9 @@
-    <script>
-    {{ with .Scratch.Get "repo_id" }}
-      var base_url = '{{ (printf "%s" $.Site.BaseURL) | safeJS }}';
-      var repo_id  = '{{ . | safeJS }}';
-    {{ else }}
-      var base_url = '';
-      var repo_id  = '';
-    {{ end }}
-    </script>
-
-    {{- with resources.Get "javascripts/application.js" | fingerprint }}<script src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end -}}
-    
-    {{ range .Site.Params.custom_js }}
-    <script src="{{ . | absURL }}"></script>
-    {{ end }}
-
+    {{ with resources.Get "javascripts/application.js" | fingerprint }}<script src="{{ .Permalink }}" integrity="{{ .Data.Integrity }}"></script>{{ end }}
     {{- if .IsPage }}
-    {{ with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
+    {{- with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
     <script>{{ .Content | safeJS }}</script>{{ end -}}
     {{ if ne .Params.code false }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    {{ end }}{{ end -}}
+    <script>head.load('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',function(){hljs.initHighlightingOnLoad();})</script>
+    {{- end }}{{ end }}
   </body>
 </html>

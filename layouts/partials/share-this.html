@@ -1,2 +1,1 @@
-{{ if .IsPage }}{{ with .Site.Params.sharethis }}
-<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property={{.}}&product=social-ab" async="async"></script>{{ end }}{{ end }}
+{{ if and .IsPage .Site.Params.sharethis }}<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property={{ .Site.Params.sharethis }}&product=social-ab" async="async"></script>{{ end }}

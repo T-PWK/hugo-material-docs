@@ -255,11 +255,11 @@ a {
   -webkit-transition: opacity 0.25s, width 0s, height 0s;
   transition: opacity 0.25s, width 0s, height 0s;
 }
-.js .header {
-  -webkit-transition: background 0.6s, color 0.6s;
-  transition: background 0.6s, color 0.6s;
+.header {
+  -webkit-transition: background 0.6s;
+  transition: background 0.6s;
 }
-.js .header:before {
+.header:before {
   -webkit-transition: background 0.6s;
   transition: background 0.6s;
 }
