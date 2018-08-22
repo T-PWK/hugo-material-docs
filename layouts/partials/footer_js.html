@@ -3,7 +3,7 @@
     {{- with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
     <script>{{ .Content | safeJS }}</script>{{ end -}}
     {{ if ne .Params.code false }}
-    <script>head.load('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',function(){hljs.initHighlightingOnLoad();})</script>
+    <script>loadjs(['https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'],{async:true,success:function(){hljs.initHighlightingOnLoad()}})</script>
     {{- end }}{{ end }}
   </body>
 </html>
