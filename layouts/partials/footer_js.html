@@ -1,9 +1,18 @@
     {{ with resources.Get "javascripts/application.js" | fingerprint }}<script src="{{ .Permalink }}"></script>{{ end }}
     {{- if .IsPage }}
-    {{- with resources.Get "javascripts/scrollspy.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . | resources.Minify }}
+    {{- with resources.Get "javascripts/scrollspy.min.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . }}
     <script>{{ .Content | safeJS }}</script>{{ end -}}
     {{ if ne .Params.code false }}
     <script>loadjs(['https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'],{async:true,success:function(){hljs.initHighlightingOnLoad()}})</script>
-    {{- end }}{{ end }}
+    {{- end }}
+    {{- if .Params.math }}
+    {{- with resources.Get "javascripts/katex/auto-render.min.js" }}
+    <script>
+      {{ .Content | safeJS }}
+      loadjs(['https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js'],{async:true, success:function(){ renderMathInElements(document.getElementsByClassName('math'),{displayMode:true}); }})
+    </script>
+    {{- end -}}
+    {{- end -}}
+    {{- end -}}
   </body>
 </html>
