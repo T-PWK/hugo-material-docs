@@ -2,6 +2,9 @@
 <hr>
 <h3>Tags:</h3>
 <p class="tags">
-  {{ range .Params.tags }}<a href="{{ $.Site.BaseURL }}tags/{{ . | urlize }}/">#{{ . }}</a>{{ end }}
+  {{- $.Scratch.Add "tags" slice -}}
+  {{- with .Params.categories }}{{ range sort . }}{{ $.Scratch.Add "tags" (dict "dir" "categories" "name" .) }}{{ end }}{{ end -}}
+  {{- with .Params.tags }}{{ range sort . }}{{ $.Scratch.Add "tags" (dict "dir" "tags" "name" .) }}{{ end }}{{ end -}}
+  {{- range (sort ($.Scratch.Get "tags") "name") }}<a href="{{ printf "/%s/%s/" .dir (.name | urlize) | relURL }}">#{{ .name }}</a>{{ end -}}
 </p>
 {{ end }}
