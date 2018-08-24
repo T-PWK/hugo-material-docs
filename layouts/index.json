@@ -1,10 +1,11 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range where .Site.Pages "Type" "not in"  (slice "page" "json") -}}
-{{ $.Scratch.Add "content" slice }}
-{{ $.Scratch.Add "content" (delimit (default (slice "") .Params.index) " ") }}
-{{ $.Scratch.Add "content" (delimit (default (slice "") .Params.tags) " ") }}
-{{ $.Scratch.Add "content" .Description }}
-{{- $.Scratch.Add "index" (dict "location" .Permalink "title" .Title "text" (delimit (sort (uniq (split (lower (delimit ($.Scratch.Get "content") " ")) " "))) " ")  ) -}}
+{{- $.Scratch.Add "content" slice -}}
+{{- with .Params.categories }}{{ range . }}{{ $.Scratch.Add "content" (lower .) }}{{ end }}{{ end -}}
+{{- with .Params.tags }}{{ range . }}{{ $.Scratch.Add "content" (lower .) }}{{ end }}{{ end -}}
+{{- with .Params.index }}{{ range . }}{{ $.Scratch.Add "content" (lower .) }}{{ end }}{{ end -}}
+{{- with .Description }}{{ range (split . " ") }}{{ $.Scratch.Add "content" (lower .) }}{{ end }}{{ end -}}
+{{- $.Scratch.Add "index" (dict "location" .Permalink "title" .Title "text" (delimit (uniq (sort ($.Scratch.Get "content"))) " ") ) -}}
 {{- $.Scratch.Delete "content" -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
