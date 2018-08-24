@@ -1,0 +1,44 @@
+{{ partial "head" . }}
+
+<div class="backdrop">
+  <div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+  {{ partial "header" . }}
+</header>
+
+<main class="main">
+  <div class="drawer">
+    {{ partial "drawer" . }}
+  </div>
+
+  <article class="article">
+    <div class="wrapper">
+      <h1>{{ .Site.Title | safeHTML }}</h1>
+      <h2>404: The page you requested does not exists</h2>
+      <p>
+        The reasons might be:</p>
+      <ul>
+        <li>The page does not exist in the linguistic version required</li>
+        <li>The page is out-dated and has been removed</li>
+        <li>The page address (URL) is not correct</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="results" role="status" aria-live="polite">
+    <div class="scrollable">
+      <div class="wrapper">
+        <div class="meta"></div>
+        <div class="list"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{ partial "footer_js" . }}
