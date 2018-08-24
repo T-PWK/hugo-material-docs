@@ -1,4 +1,4 @@
-{{ if .IsPage }} {{ $ISO8601 := "2006-01-02T15:04:05-07:00" }} {{ $images := .Resources.ByType "image" }}
+{{ if .IsPage }} {{ $ISO8601 := "2006-01-02T15:04:05-07:00" }} {{ $images := .Resources.ByType "image" }} {{ $logo := $.Site.Params.logo}}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -9,9 +9,11 @@
     "@type": "Person",
     "name": "{{.}}"
   },{{end}}
-  "image": [{{ if eq (len $images) 0 }}{"@type":"ImageObject","url":"{{ "/images/abelo-logo.png" | absURL }}","width":600,"height":60}{{ end }}{{ range $index, $img := $images }}{{ if $index}},{{ end }}
-  {"@type": "ImageObject","url":"{{$img.Permalink}}"{{ if not (hasPrefix $img.MediaType "image/svg") }},"width":{{$img.Width}},"height":{{$img.Height}}{{ end }},"caption":{{$img.Title | safeHTML | jsonify }}}{{ end }}],
-  {{ if .Params.tags }}"keywords": "{{delimit .Params.tags " " }}",{{ end }}
+  "image": [{{ if $logo }}{"@type":"ImageObject","url":"{{ $logo.url | absURL }}","width":{{$logo.width}},"height":{{$logo.height}}}{{ if $images }},{{ end }}{{ end }}{{ range $index, $img := $images }}{{ if $index }},{{end}}{"@type": "ImageObject","url":"{{$img.Permalink}}"{{ if not (hasPrefix $img.MediaType "image/svg") }},"width":{{$img.Width}},"height":{{$img.Height}}{{ end }},"caption":{{$img.Title | safeHTML | jsonify }}}{{ end }}],
+  {{ $.Scratch.Add "keywords" slice -}}
+  {{- range .Params.tags }}{{ $.Scratch.Add "keywords" . }}{{ end -}}
+  {{- range .Params.categories }}{{ $.Scratch.Add "keywords" . }}{{ end -}}
+  {{ with $.Scratch.Get "keywords" }}"keywords":"{{ delimit (uniq (sort .)) " " }}",{{ end }}
   "wordcount": "{{ .WordCount }}",
   {{ if not .PublishDate.IsZero }}"datePublished": "{{ .PublishDate.Format $ISO8601 | safeHTML }}",{{end}}
   {{ if not .Lastmod.IsZero }}"dateModified": "{{ .Lastmod.Format $ISO8601 | safeHTML }}",{{end}}
@@ -19,8 +21,9 @@
   "mainEntityOfPage": "{{ .Permalink }}",
   "publisher": {
     "@type": "Organization",
-    "name":"Abelo",
-    "logo": {"@type":"ImageObject","url":"{{ "/images/abelo-logo.png" | absURL }}","height":60,"width":600}
+    "name":"Abelo"
+    {{- if $logo }},
+    "logo": {"@type":"ImageObject","url":"{{ $logo.url | absURL }}","width":{{$logo.width}},"height":{{$logo.height}}}{{ end }}
   }
 }
 </script> {{ end }}

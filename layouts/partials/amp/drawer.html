@@ -1,7 +1,7 @@
 <nav aria-label="Navigation">
   <a href="{{ with .Site.Params.repo_url }}{{ . }}{{ else }}{{ .Site.BaseURL }}{{ end }}" class="project">
     <div class="banner">
-      {{ with .Site.Params.logo }}
+      {{ with .Site.Params.avatar }}
       <div class="logo">
         <amp-img src="{{ $.Site.BaseURL }}{{ . }}" width="64" height="64"></amp-img>
       </div>
