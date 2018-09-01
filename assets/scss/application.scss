@@ -743,6 +743,10 @@ pre span {
 .article figure {
   margin-top: 1.5em;
 
+  img {
+    &:not(:first-child) { margin-left: 5px; }
+  }
+
   &.center {
     text-align: center;
   }
