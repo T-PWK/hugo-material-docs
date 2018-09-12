@@ -3,13 +3,17 @@
     {{- with resources.Get "javascripts/scrollspy.min.js" | resources.ExecuteAsTemplate "javascripts/scrollspy.js" . }}
     <script>{{ .Content | safeJS }}</script>{{ end -}}
     {{ if ne .Params.code false }}
-    <script>loadjs(['https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'],{async:true,success:function(){hljs.initHighlightingOnLoad()}})</script>
+    {{- $highlight := resources.Get "javascripts/highlightjs/highlight.min.js" -}}
+    {{- $go := resources.Get "javascripts/highlightjs/go.min.js" -}}
+    {{- with slice $highlight $go | resources.Concat "javascripts/bundle-highlight.min.js" | resources.Fingerprint -}}
+    <script>loadScript({{ .Permalink }},function(){document.querySelectorAll("article.article pre code[class^=language]").forEach(n => hljs.highlightBlock(n))})</script>
+    {{- end -}}
     {{- end }}
     {{- if .Params.math }}
     {{- with resources.Get "javascripts/katex/auto-render.min.js" }}
     <script>
       {{ .Content | safeJS }}
-      loadjs(['https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js'],{async:true, success:function(){ renderMathInElements(document.getElementsByClassName('math'),{displayMode:true}); }})
+      loadScript('https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js',function(){ renderMathInElements(document.getElementsByClassName('math'),{displayMode:true}) })
     </script>
     {{- end -}}
     {{- end -}}
