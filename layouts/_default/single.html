@@ -19,7 +19,8 @@
 				<aside class="dates">{{ .Date.Format "Jan 2 2006" }}</aside>
 			</h1>
 			<hr> {{ .Content }} {{ partial "tags" . }}
-			<hr> {{ partial "latest-posts" . }}
+			{{ if gt .Site.Params.relatedPostCount 0 }}<hr> {{ partial "latest-posts" . }}{{ end }}
+			{{ if .Site.DisqusShortname }}<hr><br> {{ template "_internal/disqus.html" . }}{{ end }}
 			<hr> {{ partial "copyright" . }}
 		</div>
 	</article>
