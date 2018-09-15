@@ -31,8 +31,10 @@
     {{- template "_internal/opengraph.html" . -}}
     {{- template "_internal/google_news.html" . -}}
     {{- template "_internal/twitter_cards.html" . -}}
+    {{ if not .Site.BuildDrafts }}
     {{ partial "google-gtag.html" . }}
     {{ partial "google-ads.html" . }}
+    {{ end }}
     {{ partial "json-ld.html" . }}
     {{ partial "hotjar" . }}
     {{ partial "share-this" . }}
