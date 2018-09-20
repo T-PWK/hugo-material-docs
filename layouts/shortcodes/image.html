@@ -3,5 +3,5 @@
   {{ if isset .Params "link"}}<a href="{{ index .Params "link"}}">{{ end }}
   <img src="{{ $image.RelPermalink }}" alt="{{ $image.Title }}" />
   {{ if isset .Params "link"}}</a>{{ end }}
-  {{ if eq (index .Params "with-caption" | default "true") "true" }}<figcaption><h5>{{ $image.Title }}</h5></figcaption>{{end}}
+  {{ if eq (index .Params "with-caption" | default "true") "true" }}<figcaption><h5>{{ $image.Title | markdownify }}</h5></figcaption>{{end}}
 </figure>
