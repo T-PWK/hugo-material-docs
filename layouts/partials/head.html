@@ -19,7 +19,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ with .Site.Params.favicon }}{{ . | absURL }}{{ else }}{{ "images/favicon.ico" | absURL }}{{ end }}">
     <link rel="icon" type="image/x-icon" href="{{ with .Site.Params.favicon }}{{ . | absURL }}{{ else }}{{ "images/favicon.ico" | absURL }}{{ end }}">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ .Site.Params.font.text | default "Roboto" }}:400,700|{{ replace  (.Site.Params.font.code | default "Roboto Mono") " " "+" | safeURL }}">
-    {{ with resources.Get "scss/application.scss" | resources.ExecuteAsTemplate "css/application.css" . | toCSS | resources.Fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}">{{ end }}
+    {{ with resources.Get "css/application.css" | minify | resources.Fingerprint }}<link rel="stylesheet" href="{{ .Permalink }}">{{ end }}
     {{ with resources.Get "javascripts/loadscript.min.js" }}<script>{{ .Content | safeJS }}</script>{{ end }}
     {{ with resources.Get "javascripts/modernizr.js" | fingerprint }}<script async src="{{ .Permalink }}"></script>{{ end }}
 
